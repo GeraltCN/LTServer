@@ -1,10 +1,16 @@
 import os
 import sqlite3
 
+'''
+content 格式
+(id, [])
+'''
+
 
 def split_content(content):
-    # TODO 解析文本
-    pass
+    id = content[0]
+    items = content[1]
+    return id,items
 
 def execute(cr, code):
     if hasattr(cr, 'execute') & hasattr(cr, 'fetchall'):
@@ -62,7 +68,7 @@ class LTDatabase(object):
         id = 1
         items = split_content(content)
         items = 'A, B, C, D'
-        self.execute('SELECT %s FROM %s WHERE ID = %s;' % (self.type, items, id), "ONE")
+        self.execute('SELECT %s FROM %s WHERE ID = %s;' % (items, self.type, id), "ONE")
 
     def add_info(self, content):
         # items, data = split_content(content)

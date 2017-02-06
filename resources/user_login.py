@@ -1,5 +1,24 @@
 from flask_restful import fields, marshal_with, reqparse, Resource
 from resources.database.database import LTDatabase
+import base64
+import time
+
+
+def accio_token(id):
+    random = '1'
+    text = id + ' ' + random + ' ' + str(round(time.time()))
+    token = base64.b64decode(text.encode())
+    return token
+
+def login(username, password,):
+    # TODO LOGIN
+    udb = LTDatabase('USER')
+    id, _password = udb.get_info(('ID', ['PASSWORD']))
+    if password == _password:
+        return accio_token(id)
+    else:
+        return 0
+
 
 post_parse = reqparse.RequestParser()
 post_parse.add_argument(
@@ -11,14 +30,6 @@ post_parse.add_argument(
     dest = 'password',
 )
 
-def login(username, password,):
-    # TODO 登陆
-
-    udb = LTDatabase('USER')
-
-
-
-    pass
 
 #Output
 login_fields = {

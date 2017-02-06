@@ -2,6 +2,12 @@ from flask_restful import fields, marshal_with, reqparse, Resource
 from resources.database.database import LTDatabase
 
 
+def create_user(username, password):
+    # TODO REGISTER
+
+    pass
+
+
 post_parse = reqparse.RequestParser()
 post_parse.add_argument(
     'username', type=str,
