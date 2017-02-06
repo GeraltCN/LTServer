@@ -1,4 +1,6 @@
 from flask_restful import fields, marshal_with, reqparse, Resource
+from resources.database.database import LTDatabase
+
 
 post_parse = reqparse.RequestParser()
 post_parse.add_argument(

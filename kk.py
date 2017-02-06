@@ -1,14 +1,28 @@
 import sqlite3
+import os
+
+def execute(cr, code):
+    if hasattr(cr, 'execute') & hasattr(cr, 'fetchall'):
+        cr.execute(code)
+        return cr.fetchall()
+
+d = {"ONE": execute}
 
 rv = sqlite3.connect('test.db')
 cr = rv.cursor()
 
-def kk(cursor):
-    cursor.execute('create table user (id varchar(20) primary key, name varchar(20))')
-    cursor.execute('insert into user (id, name) values (\'1\', \'Michael\')')
-    cursor.close()
+cr.executescript('''
+create table users(id integer primary key,name text,level integer);
+insert into users(name,level) values('李斯',2);
+insert into users(name,level) values('张三',4);
+insert into users(name,level) values('王五',3);
+''')
 
-kk(cr)
+print(d["ONE"](cr, "SELECT * FROM users"))
 
+
+cr.close()
 rv.commit()
 rv.close()
+
+os.system('rm test.db')

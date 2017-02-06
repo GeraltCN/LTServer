@@ -29,6 +29,11 @@ def init_db():
 @app.cli.command('savedb')
 def save_db():
     LTDatabase.save_db()
+
+@app.cli.command('creatdb')
+def create_db():
+    LTDatabase.create_db()
+
 '''
 
 # TODO TEST!
