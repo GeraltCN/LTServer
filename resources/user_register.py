@@ -2,13 +2,6 @@ from flask_restful import fields, marshal_with, reqparse, Resource
 from resources.database.database import LTDatabase
 
 
-def create_user(username, password):
-    # TODO REGISTER
-    db = LTDatabase('USER')
-    if not db.has_item():
-        pass
-
-
 post_parse = reqparse.RequestParser()
 post_parse.add_argument(
     'username', type=str,
@@ -25,12 +18,19 @@ register_fields = {
 }
 
 def create_user(username, password):
-    # TODO 注册
-    pass
+    db = LTDatabase('USER')
+    if not db.has_info(('USERNAME',username)):
+        db.add_info({
+            'USERNAME':username,
+            'PASSWORD':password
+        })
+        return 1
+    return 0
 
 
 class user_register(Resource):
-    def post(self):
+    @marshal_with(register_fields)
+    def get(self):
         args = post_parse.parse_args()
         if create_user(args.username, args.password):
             return {'result': 1}
@@ -38,5 +38,4 @@ class user_register(Resource):
             return {'result': 0}
 
 if __name__ == '__main__':
-    db = LTDatabase('USER')
-    print(db.get_info(['USERNAME','PASSWORD'], ("ID", 10000)))
+    create_user('ljjasda','asd')

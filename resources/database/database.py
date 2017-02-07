@@ -9,12 +9,23 @@ condition (key, value)
 '''
 
 
+# ['a','b'] -> 'a,b'
 def accio_item(item):
     if item:
         comma = ','
         return comma.join(item)
     else:
         return '*'
+
+
+def format_values(values):
+    new = []
+    for value in values:
+        if isinstance(value, int):
+            new.append(str(value))
+        else:
+            new.append('"'+value+'"')
+    return new
 
 
 def accio_condition(condition):
@@ -25,7 +36,7 @@ def accio_condition(condition):
             v = str(value)
         else:
             v = '\"%s\"' % value
-        return " WHERE %s = \"%s\"" % (key, v)
+        return " WHERE %s = %s" % (key, v)
     else:
         return ""
 
@@ -107,8 +118,10 @@ class LTDatabase(object):
     def add_info(self, content):
         key, value = split_content(content)
         keys = '(%s)' % accio_item(key)
-        values = '(%s)' % accio_item(value)
-        self.execute('INSERT INTO %s %s VALUES %s;' % (self.type, keys, values), 'ONE')
+        values = format_values(value)
+        values = '(%s)' % accio_item(values)
+        command = 'INSERT INTO %s %s VALUES %s;' % (self.type, keys, values)
+        self.execute(command, 'ONE')
 
     def set_info(self, content, condition):
         key, value = split_content(content)
@@ -117,10 +130,11 @@ class LTDatabase(object):
             sets.append("%s=\"%s\"" % (key[i], value[i]))
         _set = accio_item(sets)
         cd = accio_condition(condition)
-        self.execute('UPDATE %s SET %s%s;' % (self.type, _set, cd), 'ONE')
+        command = 'UPDATE %s SET %s%s;' % (self.type, _set, cd)
+        return command
 
-    def has_item(self, item):
-        return self.get_info(0, condition=item)
+    def has_info(self, condition):
+        return self.get_info(0, condition)
 
     # !!!
     def del_info(self, _id):
@@ -129,7 +143,9 @@ class LTDatabase(object):
 
 
 if __name__ == '__main__':
-# demo ;)
-    db = LTDatabase('USER')
-    print(db.get_info(['USERNAME', 'PASSWORD'], ("ID", 10000)))
+    pass
+    #db = LTDatabase('USER')
+    #db.add_info({'USERNAME':'ljj','PASSWORD':'121312'})
+    #db.get_info(['USERNAME', 'PASSWORD'], ("ID", '10000'))
+
 
