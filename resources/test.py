@@ -9,10 +9,15 @@ post_parse.add_argument(
 test_fields = {
     'part' : fields.String,
     'info' : fields.String,
+    'tt': {
+        'one': fields.String,
+        'two': fields.String,
+    },
 }
 
 class test(Resource):
+    @marshal_with(test_fields)
     def get(self):
         argus = post_parse.parse_args()
         wis = argus.part
-        return {'info':wis,'part':wis}
+        return {'info':wis,'part':wis, 'one':wis, 'two':wis,}

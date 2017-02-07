@@ -2,13 +2,16 @@ from flask_restful import fields, marshal_with, reqparse, Resource
 from resources.database.database import LTDatabase
 import base64
 import time
+import hashlib
 
+
+def hash(text):
+    return hashlib.md5(text.encode()).hexdigest()
 
 def accio_token(id):
-    random = '1'
-    text = id + ' ' + random + ' ' + str(round(time.time()))
-    token = base64.b64decode(text.encode())
-    return token
+    text = id + ' ' + str(round(time.time()))
+    token = base64.b64encode(text.encode())
+    return token.decode()
 
 def login(username, password,):
     # TODO LOGIN
@@ -50,3 +53,6 @@ class user_login(Resource):
         else:
             return {'result': 0, 'token': answer}
 
+
+if __name__ == '__main__' :
+    print(accio_token('asd1212axas222h22212aasdasj'))

@@ -4,8 +4,9 @@ from resources.database.database import LTDatabase
 
 def create_user(username, password):
     # TODO REGISTER
-
-    pass
+    db = LTDatabase('USER')
+    if not db.has_item():
+        pass
 
 
 post_parse = reqparse.RequestParser()
@@ -35,3 +36,7 @@ class user_register(Resource):
             return {'result': 1}
         else:
             return {'result': 0}
+
+if __name__ == '__main__':
+    db = LTDatabase('USER')
+    print(db.get_info(['USERNAME','PASSWORD'], ("ID", 10000)))
