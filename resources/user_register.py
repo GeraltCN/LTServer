@@ -37,5 +37,6 @@ class user_register(Resource):
         else:
             return {'result': 0}
 
+
 if __name__ == '__main__':
-    create_user('ljjasda','asd')
+    print(hash('lajdaksjdlk'))

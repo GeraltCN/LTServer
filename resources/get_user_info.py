@@ -1,22 +1,6 @@
 from flask_restful import fields, marshal_with, reqparse, Resource
 from resources.database.database import LTDatabase
-import base64
-import time
-
-valid_time = 7 * 24 * 3600
-
-
-def check_token(token):
-    text = base64.b64decode(token.encode()).decode()
-    tt = text.split()
-    id = tt[0]
-    time_token = int(tt[1])
-    time_now = round(time.time())
-    db = LTDatabase('USER')
-    if db.get_info((id, ['*'])) and (time_now - time_token <= valid_time):
-        return id
-    else:
-        return 0
+from resources.token_lt import *
 
 post_parse = reqparse.RequestParser()
 post_parse.add_argument(
@@ -27,21 +11,25 @@ post_parse.add_argument(
 # Output
 user_info_fields = {
     # TODO blabla...
+    'id': fields.Integer,
     'name': fields.String,
 }
 
 
 class get_user_info(Resource):
     @marshal_with(user_info_fields)
-    def post(self):
+    def get(self):
         args = post_parse.parse_args()
         token = args.token
-        id = check_token(token)
+        username = check_token(token)
+        db = LTDatabase('USER')
         if id:
-            return {"THIS IS": "CONTENT"}
+            _id, _username = db.get_info(['ID', 'USERNAME'], ('USERNAME', username))[0]
+            return {'id': _id, 'name': _username}
         else:
             return {"NOT": "OK"}
 
 
 if __name__ == '__main__':
-    print(check_token('YXNkMTIxMmF4YXMyMjJoMjIyMTJhYXNkYXNqIDE0ODY0NjM2OTY='))
+    db = LTDatabase('USER')
+    print(db.get_info(0, ('USERNAME','ljjjx1997')))
