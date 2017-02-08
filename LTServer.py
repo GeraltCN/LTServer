@@ -4,6 +4,7 @@ from flask_restful import Api
 from resources.user_login import user_login
 from resources.user_register import user_register
 from resources.get_user_info import get_user_info
+from resources.update_user_info import update_user_info
 
 from resources.database.database import LTDatabase
 
@@ -17,6 +18,7 @@ api = Api(app)
 api.add_resource(user_login, '/user_login')
 api.add_resource(get_user_info, '/get_user_info')
 api.add_resource(user_register, '/user_register')
+api.add_resource(update_user_info, '/update_user_info')
 
 '''
 
