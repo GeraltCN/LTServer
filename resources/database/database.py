@@ -131,7 +131,7 @@ class LTDatabase(object):
         _set = accio_item(sets)
         cd = accio_condition(condition)
         command = 'UPDATE %s SET %s%s;' % (self.type, _set, cd)
-        return command
+        self.execute(command, 'ONE')
 
     def has_info(self, condition):
         return self.get_info(0, condition)
@@ -144,8 +144,8 @@ class LTDatabase(object):
 
 if __name__ == '__main__':
     pass
-    #db = LTDatabase('USER')
-    #db.add_info({'USERNAME':'ljj','PASSWORD':'121312'})
+    db = LTDatabase('USER')
+    #db.add_info()
     #db.get_info(['USERNAME', 'PASSWORD'], ("ID", '10000'))
-
+    print(db.set_info({'USERNAME':'RON','PASSWORD':'121312'}, ('ID', 10000)))
 

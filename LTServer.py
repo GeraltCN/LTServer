@@ -20,14 +20,14 @@ api.add_resource(get_user_info, '/get_user_info')
 api.add_resource(user_register, '/user_register')
 api.add_resource(update_user_info, '/update_user_info')
 
-'''
 
-不完善
 
-@app.cli.command('initdb')
+
+@app.cli.command('createdb')
 def init_db():
-    LTDatabase.init_db()
+    LTDatabase.create_db()
 
+'''
 @app.cli.command('savedb')
 def save_db():
     LTDatabase.save_db()
