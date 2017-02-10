@@ -32,16 +32,19 @@ class update_user_info(Resource):
     def get(self):
         args = post_parse.parse_args()
         token = args.token
-        dict = args.dict
-        _username = check_token(token)
-        if _username:
-            db = LTDatabase('USER')
-            db.set_info(dict, ('USERNAME', _username))
+        content = content_analysis(args.content)
+        info = check_token(token)
+
+        if info:
+            _username = info[0]
+            _duty = info[1]
+            db = LTDatabase(_duty)
+            db.set_info(content, ('USERNAME', _username))
             return {'result':1}
         else:
-            return 0
+            return {'result':0}
 
 
 if __name__ == '__main__':
-    info = base64.b64encode("{\"time\":\"now\"}".encode()).decode()
-    print(type(content_analysis(info)))
+    db = LTDatabase('USER')
+    db.set_info({'HEAD':'default.jpg'},('ID', 1))

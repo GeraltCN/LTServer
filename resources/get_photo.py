@@ -1,6 +1,8 @@
 from flask_restful import fields, marshal_with, reqparse, Resource
 from resources.database.database import LTDatabase
 from resources.token_lt import *
+from resources.img import accio_photo
+
 
 post_parse = reqparse.RequestParser()
 post_parse.add_argument(
@@ -11,29 +13,28 @@ post_parse.add_argument(
 # Output
 user_info_fields = {
     # TODO blabla...
-    'id': fields.Integer,
-    'name': fields.String,
-    'duty': fields.String,
+    'result': fields.Integer,
+    'photo': fields.String,
 }
 
 
-class get_user_info(Resource):
+class get_photo(Resource):
     @marshal_with(user_info_fields)
     def get(self):
         args = post_parse.parse_args()
-        token = args.token
-        info = check_token(token)
-
+        info = check_token(args.token)
         if info:
             _username = info[0]
             _duty = info[1]
             db = LTDatabase(_duty)
-            _id, _username = db.get_info(['ID', 'USERNAME'], ('USERNAME', _username))[0]
-            return {'id': _id, 'name': _username, 'duty': _duty}
+            head = db.get_info(['HEAD'], ('USERNAME', _username))[0][0]
+            photo = accio_photo(head)
+            return {'result':1, 'photo': photo}
         else:
-            return {"NOT": "OK"}
+            return {'result':0, 'photo':'lol'}
+
 
 
 if __name__ == '__main__':
     db = LTDatabase('USER')
-    print(db.get_info(0, ('USERNAME','ljjjx1997')))
+    print(type(db.get_info(['HEAD'], ('ID', 1))[0][0]))

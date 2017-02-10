@@ -146,6 +146,6 @@ if __name__ == '__main__':
     pass
     db = LTDatabase('USER')
     #db.add_info()
-    #db.get_info(['USERNAME', 'PASSWORD'], ("ID", '10000'))
-    print(db.set_info({'USERNAME':'RON','PASSWORD':'121312'}, ('ID', 10000)))
+    db.get_info(['USERNAME', 'PASSWORD'], ("ID", '10000'))
+
 

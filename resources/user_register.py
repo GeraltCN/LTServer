@@ -22,7 +22,10 @@ def create_user(username, password):
     if not db.has_info(('USERNAME',username)):
         db.add_info({
             'USERNAME':username,
-            'PASSWORD':password
+            'PASSWORD':password,
+            'NICKNAME':username,
+            'HEAD':'default.jpg',
+            'AP':0,
         })
         return 1
     return 0
@@ -39,4 +42,4 @@ class user_register(Resource):
 
 
 if __name__ == '__main__':
-    print(hash('lajdaksjdlk'))
+    create_user('ljjjx1997', '123456')
