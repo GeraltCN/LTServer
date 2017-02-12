@@ -45,7 +45,7 @@ def check():
 
 class user_login(Resource):
     @marshal_with(login_fields)
-    def get(self):
+    def post(self):
         args = post_parse.parse_args()
         answer = login(args.username, args.password, args.duty)
         if answer:

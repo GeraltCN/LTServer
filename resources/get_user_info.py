@@ -11,15 +11,20 @@ post_parse.add_argument(
 # Output
 user_info_fields = {
     # TODO blabla...
-    'id': fields.Integer,
-    'name': fields.String,
-    'duty': fields.String,
+    'result': fields.Integer,
+    'username': fields.String,
+    'nickname': fields.String,
+    'history_order': fields.String,
+    'present_order': fields.String,
+    'dc': fields.String,
+    'ap': fields.Integer,
+    'drivers': fields.String,
 }
 
 
 class get_user_info(Resource):
     @marshal_with(user_info_fields)
-    def get(self):
+    def post(self):
         args = post_parse.parse_args()
         token = args.token
         info = check_token(token)
@@ -28,12 +33,21 @@ class get_user_info(Resource):
             _username = info[0]
             _duty = info[1]
             db = LTDatabase(_duty)
-            _id, _username = db.get_info(['ID', 'USERNAME'], ('USERNAME', _username))[0]
-            return {'id': _id, 'name': _username, 'duty': _duty}
+            list = db.get_info(0, ('USERNAME', _username))[0]
+            return {
+                'result': 1,
+                'username': list[1],
+                'nickname': list[3],
+                'history_order': list[5],
+                'present_order': list[6],
+                'dc': list[7],
+                'ap': list[8],
+                'drivers': list[9]
+            }
         else:
-            return {"NOT": "OK"}
+            return {'result': 0}
 
 
 if __name__ == '__main__':
     db = LTDatabase('USER')
-    print(db.get_info(0, ('USERNAME','ljjjx1997')))
+    print(db.get_info(0, ('USERNAME','ljjjx1997'))[0])

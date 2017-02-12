@@ -20,7 +20,7 @@ user_info_fields = {
 
 class get_photo(Resource):
     @marshal_with(user_info_fields)
-    def get(self):
+    def post(self):
         args = post_parse.parse_args()
         info = check_token(args.token)
         if info:

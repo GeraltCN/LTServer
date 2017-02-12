@@ -144,8 +144,8 @@ class LTDatabase(object):
 
 if __name__ == '__main__':
     pass
-    db = LTDatabase('USER')
-    #db.add_info()
-    db.get_info(['USERNAME', 'PASSWORD'], ("ID", '10000'))
+    db = LTDatabase('GOOD')
+    db.add_info({'ID':1000000001,'USERID':1,'DRIVERID':1, 'START_TIME':"2010年10月",'END_TIME':"2010年12月",'REMARK':'老司机666'})
+
 
 

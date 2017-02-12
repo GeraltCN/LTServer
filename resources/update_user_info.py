@@ -29,7 +29,7 @@ user_info_fields = {
 class update_user_info(Resource):
 
     @marshal_with(user_info_fields)
-    def get(self):
+    def post(self):
         args = post_parse.parse_args()
         token = args.token
         content = content_analysis(args.content)
@@ -47,4 +47,5 @@ class update_user_info(Resource):
 
 if __name__ == '__main__':
     db = LTDatabase('USER')
-    db.set_info({'HEAD':'default.jpg'},('ID', 1))
+    db.set_info({'NICKNAME':'Snow','HISTORY_ORDER':'100000000','PRESENT_ORDER':'1000000001', 'DC':'ASDKJLJ123SA', 'AP':123,'DRIVERS': 'Imp'},('ID', 1))
+
